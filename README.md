@@ -1,2 +1,0 @@
-# React-Redux-Source
-Source

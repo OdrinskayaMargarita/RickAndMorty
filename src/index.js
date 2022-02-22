@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from "react-redux"
-
 import App from './Components/App/App';
+import reportWebVitals from './reportWebVitals';
+import {Provider} from "react-redux";
 import store from './Redux/store/store'
 
 ReactDOM.render(
@@ -11,3 +11,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+reportWebVitals();

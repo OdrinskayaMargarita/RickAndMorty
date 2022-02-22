@@ -1,4 +1,4 @@
 import {combineReducers} from 'redux';
-import { UsersReducer } from "./UsersReducer"
+import { CharactersReducer } from "./CharactersReducer"
 
-export const rootReducer = combineReducers({ UsersReducer })
+export const rootReducer = combineReducers({ CharactersReducer })

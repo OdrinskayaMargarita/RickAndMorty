@@ -1,0 +1,28 @@
+.list-character {
+  display: grid;
+  grid-template-columns: repeat(4, 20%);
+  justify-content: space-between;
+  margin-top: 40px
+}
+
+.character-item {
+  max-width: 100%;
+  text-align: center;
+}
+
+.character-item img {
+  max-width: 70%;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.character-item h3 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.character-item p {
+  margin-top: 0;
+}
