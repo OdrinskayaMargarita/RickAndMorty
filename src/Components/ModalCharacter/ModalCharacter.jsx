@@ -11,7 +11,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '60%',
+  width: '75%',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -20,10 +20,9 @@ const style = {
 };
 
 
-const ModalCharacter = () => {
+export const ModalCharacter = () => {
   const dispatch = useDispatch()
-  const {characterItem} = useSelector((store) => store.CharactersReducer)
-  const {modalStatus} = useSelector((store) => store.CharactersReducer)
+  const {characterItem, modalStatus} = useSelector(({CharactersReducer}) => CharactersReducer)
 
   const closeModal = () => {
     dispatch(saveModalStatus(false))
@@ -35,7 +34,7 @@ const ModalCharacter = () => {
       <Box sx={style}>
         <div className="modal-characters">
           <div className="modal-characters__img">
-            <img src={characterItem.image} alt={characterItem?.name}/>
+            <img src={characterItem?.image} alt={characterItem?.name}/>
           </div>
           <div className="modal-characters__txt">
             <p>Name: <b>{characterItem?.name}</b></p>
@@ -45,9 +44,9 @@ const ModalCharacter = () => {
             <p>Location: <b>{characterItem?.location?.name}</b></p>
             <p>Created: <b>{characterItem.created}</b></p>
             <ul>
-              <p>Episods</p>
+              <p>Episodes</p>
               {characterItem?.episode?.length ? characterItem.episode.map((episode, key) => <li key={key}>{episode}</li>) :
-                <p>Any episods</p>}
+                <p>Any episodes</p>}
             </ul>
           </div>
         </div>
@@ -55,5 +54,3 @@ const ModalCharacter = () => {
     </Modal>
   )
 }
-
-export default ModalCharacter

@@ -15,6 +15,7 @@
   width: 100%;
   display: block;
   margin: 0 auto;
+  cursor: pointer;
 }
 
 .character-item h3 {
@@ -25,4 +26,13 @@
 
 .character-item p {
   margin-top: 0;
+  cursor: pointer;
+}
+
+.custom-pagination {
+  margin-top: 20px;
+}
+
+.custom-pagination .MuiPagination-ul {
+  justify-content: center;
 }

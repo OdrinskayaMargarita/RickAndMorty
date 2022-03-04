@@ -1,11 +1,10 @@
 import './App.css';
 
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 
-import ModalCharacter from "../ModalCharacter/ModalCharacter";
+import {ModalCharacter} from "../ModalCharacter/ModalCharacter";
 import {
-  asyncGetCharacterList,
   asyncGetCharacterListPage,
   asyncGetSingleCharacter,
   saveModalStatus
@@ -16,14 +15,15 @@ import {Autocomplete, Container, TextField} from "@mui/material";
 
 
 const App = () => {
-
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(asyncGetCharacterList())
-  }, [])
+  const [valueAutocomplete, setValueAutocomplete] = useState('')
 
-  const {characterList} = useSelector((store) => store.CharactersReducer)
+  useEffect(() => {
+    dispatch(asyncGetCharacterListPage(1))
+  }, [dispatch])
+
+  const {characterList} = useSelector(({CharactersReducer}) => CharactersReducer)
 
   const paginationChange = (event, value) => {
     dispatch(asyncGetCharacterListPage(value))
@@ -36,12 +36,15 @@ const App = () => {
 
   return (
     <div className="App">
-
       <Container>
         <Autocomplete
           freeSolo
-          disableClearable
-          options={characterList?.results?.map((option) => option.name)}
+          clearOnBlur
+          value={valueAutocomplete}
+          options={characterList?.results?.map((option) => option.name) || []}
+          onChange={(event, newValue) => {
+            newValue?.length && handleOpenModal(characterList?.results?.find(person => person.name === newValue)?.id)
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -56,20 +59,19 @@ const App = () => {
 
         <div className="list-character">
           {characterList?.results?.map((item) => (
-            <div className="character-item" key={item.id}>
+            <div className="character-item" key={item.id} onClick={() => handleOpenModal(item.id)}>
               <img src={item.image} alt={item.name}/>
-              <h3 onClick={() => handleOpenModal(item.id)}>{item.name}</h3>
+              <h3>{item.name}</h3>
               <p>{item.status}</p>
             </div>
           ))}
         </div>
 
-        {characterList?.info?.pages ?
-          <Pagination count={characterList.info.pages} color="primary" onChange={paginationChange}/> : null}
+        {characterList?.info?.pages &&
+          <Pagination className="custom-pagination" count={characterList.info.pages} color="primary"
+                      onChange={paginationChange}/>}
       </Container>
-
       <ModalCharacter/>
-
     </div>
   );
 }

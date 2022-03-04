@@ -7,21 +7,13 @@ export const getCharacterList = (data) => ({
   data: data
 })
 
-export const asyncGetCharacterList = () => async (dispatch, getState) => {
-  let data = await api.getCharacterList().then(res => {
-    dispatch(getCharacterList(res.data))
-  }).catch(err => {
-    return false
-  });
-};
-
-
 //Get persons on every pages
-export const asyncGetCharacterListPage = (numberPage) => async (dispatch, getState) => {
-  let data = await api.getCharacterListPage(numberPage).then(res => {
-    dispatch(getCharacterList(res.data))
+export const asyncGetCharacterListPage = (numberPage) => async (dispatch) => {
+  await (api.getCharacterListPage(numberPage))
+  .then(({data}) => {
+    dispatch(getCharacterList(data))
   }).catch(err => {
-    return false
+    return err
   });
 };
 
@@ -32,11 +24,11 @@ export const getSingleCharacter = (data) => ({
   data: data
 })
 
-export const asyncGetSingleCharacter = (idCharacter) => async (dispatch, getState) => {
-  let data = await api.getSingleCharacter(idCharacter).then(res => {
-    dispatch(getSingleCharacter(res.data))
+export const asyncGetSingleCharacter = (idCharacter) => async (dispatch) => {
+  await api.getSingleCharacter(idCharacter).then(({data}) => {
+    dispatch(getSingleCharacter(data))
   }).catch(err => {
-    return false
+    return err
   });
 };
 
@@ -48,7 +40,6 @@ export const saveModalStatus = (data) => ({
 
 
 //Clear store single character
-export const clearCharacterItem = (data) => ({
+export const clearCharacterItem = () => ({
   type: CLEAR_CHARACTER_ITEM,
-  data: data
 })
