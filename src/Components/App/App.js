@@ -12,6 +12,7 @@ import {
 
 import Pagination from '@mui/material/Pagination';
 import {Autocomplete, Container, TextField} from "@mui/material";
+import Grid from '@mui/material/Grid';
 
 
 const App = () => {
@@ -57,15 +58,17 @@ const App = () => {
           )}
         />
 
-        <div className="list-character">
+        <Grid sx={{flexGrow: 1}} container spacing={3} columns={12}>
           {characterList?.results?.map((item) => (
-            <div className="character-item" key={item.id} onClick={() => handleOpenModal(item.id)}>
-              <img src={item.image} alt={item.name}/>
-              <h3>{item.name}</h3>
-              <p>{item.status}</p>
-            </div>
+            <Grid item xs={3}>
+              <div className="character-item" key={item.id} onClick={() => handleOpenModal(item.id)}>
+                <img src={item.image} alt={item.name}/>
+                <h3>{item.name}</h3>
+                <p>{item.status}</p>
+              </div>
+            </Grid>
           ))}
-        </div>
+        </Grid>
 
         {characterList?.info?.pages &&
           <Pagination className="custom-pagination" count={characterList.info.pages} color="primary"
