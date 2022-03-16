@@ -4,14 +4,19 @@ import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect, useState} from "react";
 
 import {ModalCharacter} from "../ModalCharacter/ModalCharacter";
+import {Filter} from "../Filter/Filter";
 import {
   asyncGetCharacterListPage,
   asyncGetSingleCharacter,
-  saveModalStatus
+  saveModalStatus, writeParams
 } from "../../Redux/Actions/CharactersAction";
 
 import Pagination from '@mui/material/Pagination';
-import {Autocomplete, Container, TextField} from "@mui/material";
+import {
+  Autocomplete,
+  Container,
+  TextField
+} from "@mui/material";
 import Grid from '@mui/material/Grid';
 
 
@@ -25,9 +30,11 @@ const App = () => {
   }, [dispatch])
 
   const {characterList} = useSelector(({CharactersReducer}) => CharactersReducer)
+  const {params} = useSelector(({CharactersReducer}) => CharactersReducer)
 
   const paginationChange = (event, value) => {
-    dispatch(asyncGetCharacterListPage(value))
+    dispatch(writeParams('page', value))
+    dispatch(asyncGetCharacterListPage(value, params?.filterGender, params?.filterStatus, params?.filterSpecies))
   };
 
   const handleOpenModal = (id) => {
@@ -57,17 +64,28 @@ const App = () => {
             />
           )}
         />
+        <Grid container spacing={3} columns={12}>
+          <Grid item xs={2}>
+            <Filter/>
+          </Grid>
 
-        <Grid sx={{flexGrow: 1}} container spacing={3} columns={12}>
-          {characterList?.results?.map((item) => (
-            <Grid item xs={3}>
-              <div className="character-item" key={item.id} onClick={() => handleOpenModal(item.id)}>
-                <img src={item.image} alt={item.name}/>
-                <h3>{item.name}</h3>
-                <p>{item.status}</p>
-              </div>
-            </Grid>
-          ))}
+          <Grid item xs={10}>
+            {characterList?.results?.length ?
+              <Grid container spacing={3} columns={12}>
+                {characterList?.results?.map((item) => (
+                  <Grid item xs={3} key={item.id}>
+                    <div className="character-item" onClick={() => handleOpenModal(item.id)}>
+                      <img src={item.image} alt={item.name}/>
+                      <h3>{item.name}</h3>
+                      <p>{item.status}</p>
+                    </div>
+                  </Grid>
+                ))}
+              </Grid>
+              : <p>No matches found. Try other filters</p>
+            }
+          </Grid>
+
         </Grid>
 
         {characterList?.info?.pages &&

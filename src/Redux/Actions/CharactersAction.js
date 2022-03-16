@@ -1,20 +1,28 @@
 import {api} from "../../api/api"
-import {CLEAR_CHARACTER_ITEM, GET_CHARACTER_ITEM, GET_CHARACTER_LIST, MODAL_STATUS} from '../Constants/Constants';
+import {
+  CLEAR_CHARACTER_ITEM,
+  GET_CHARACTER_ITEM,
+  GET_CHARACTER_LIST,
+  MODAL_STATUS,
+  WRITE_PARAMS,
+  CLEAR_FILTER,
+} from '../Constants/Constants';
+
 
 //Get all persons
 export const getCharacterList = (data) => ({
   type: GET_CHARACTER_LIST,
-  data: data
+  data: data,
 })
 
 //Get persons on every pages
-export const asyncGetCharacterListPage = (numberPage) => async (dispatch) => {
-  await (api.getCharacterListPage(numberPage))
-  .then(({data}) => {
-    dispatch(getCharacterList(data))
-  }).catch(err => {
-    return err
-  });
+export const asyncGetCharacterListPage = (currentPage, filterGender, filterStatus, filterSpecies) => async (dispatch) => {
+  await (api.getCharacterListPage(currentPage, filterGender, filterStatus, filterSpecies))
+    .then(({data}) => {
+      dispatch(getCharacterList(data, currentPage))
+    }).catch(err => {
+      return err
+    });
 };
 
 
@@ -31,6 +39,21 @@ export const asyncGetSingleCharacter = (idCharacter) => async (dispatch) => {
     return err
   });
 };
+
+
+// Write parameters
+export const writeParams = (typeFilter, valueFilter) => ({
+  type: WRITE_PARAMS,
+  typeFilter: typeFilter,
+  valueFilter: valueFilter,
+})
+
+//Clear parameters
+export const clearParams = () => ({
+  type: CLEAR_FILTER,
+})
+
+
 
 //Change modal status
 export const saveModalStatus = (data) => ({
