@@ -1,10 +1,5 @@
 import {
-  GET_CHARACTER_LIST,
-  GET_CHARACTER_ITEM,
-  MODAL_STATUS,
-  CLEAR_CHARACTER_ITEM,
-  WRITE_PARAMS, CLEAR_FILTER
-} from '../Constants/Constants';
+  GET_CHARACTER_LIST, GET_CHARACTER_ITEM, MODAL_STATUS, CLEAR_CHARACTER_ITEM, WRITE_PARAMS, CLEAR_FILTER} from '../Constants/Constants';
 
 const initialState = {
   characterList: [],
